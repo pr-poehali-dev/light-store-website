@@ -13,9 +13,27 @@ const Index = () => {
   };
 
   const baseProducts = [
-    { name: 'Подвесной светильник ГЕОМЕТРИЯ', image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/02103663-070f-4afe-94ff-5bf9e6efeab1.jpg', category: 'Подвесные' },
-    { name: 'Торшер ЭЛЕГАНТ', image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/c16f013c-ae62-4527-a455-06bd91353bde.jpg', category: 'Торшеры' },
-    { name: 'Настольная лампа ПРЕМИУМ', image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/f14e1186-6fd8-4da0-aae3-c5e6fa5d6c03.jpg', category: 'Настольные' }
+    { 
+      name: 'Подвесной светильник ГЕОМЕТРИЯ', 
+      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/02103663-070f-4afe-94ff-5bf9e6efeab1.jpg', 
+      category: 'Подвесные',
+      shortDesc: 'Современный дизайн с металлическим каркасом',
+      fullDesc: 'Стильный подвесной светильник с геометрическими формами. Идеально подходит для гостиной, кухни или столовой. Регулируемая высота подвеса, LED-лампа E27 (в комплект не входит). Материал: металл с порошковым покрытием. Размер: 30х30 см.'
+    },
+    { 
+      name: 'Торшер ЭЛЕГАНТ', 
+      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/c16f013c-ae62-4527-a455-06bd91353bde.jpg', 
+      category: 'Торшеры',
+      shortDesc: 'Классический торшер для уютной атмосферы',
+      fullDesc: 'Элегантный напольный торшер с текстильным абажуром. Создает мягкое рассеянное освещение. Регулируемая яркость через диммер. Основание из натурального дерева, абажур - качественный текстиль. Высота: 165 см, диаметр абажура: 40 см.'
+    },
+    { 
+      name: 'Настольная лампа ПРЕМИУМ', 
+      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/f14e1186-6fd8-4da0-aae3-c5e6fa5d6c03.jpg', 
+      category: 'Настольные',
+      shortDesc: 'Минималистичная лампа для рабочего стола',
+      fullDesc: 'Компактная настольная лампа в современном стиле. Сенсорное управление, 3 режима яркости, USB-зарядка. Гибкая ножка для регулировки угла освещения. LED-подсветка с теплым светом (3000K). Материал: алюминиевый сплав. Высота: 45 см.'
+    }
   ];
 
   const products = Array.from({ length: 50 }, (_, i) => {
@@ -26,7 +44,9 @@ const Index = () => {
       name: `${baseProduct.name} ${i + 1}`,
       price: `${prices[i % prices.length]} ₽`,
       image: baseProduct.image,
-      category: baseProduct.category
+      category: baseProduct.category,
+      shortDesc: baseProduct.shortDesc,
+      fullDesc: baseProduct.fullDesc
     };
   });
 
@@ -58,8 +78,9 @@ const Index = () => {
                 </button>
               ))}
             </div>
-            <Button className="gradient-bg">
-              <Icon name="ShoppingCart" size={20} />
+            <Button className="gradient-bg" onClick={() => scrollToSection('contacts')}>
+              <Icon name="Phone" size={20} />
+              Связаться
             </Button>
           </div>
         </div>
@@ -155,9 +176,9 @@ const Index = () => {
             </Card>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
-              <Card key={product.id} className="group overflow-hidden hover:shadow-xl transition-all cursor-pointer">
+              <Card key={product.id} className="group overflow-hidden hover:shadow-xl transition-all">
                 <div className="relative aspect-square overflow-hidden">
                   <img
                     src={product.image}
@@ -165,12 +186,18 @@ const Index = () => {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
-                <div className="p-4">
-                  <h3 className="font-bold mb-2 text-sm line-clamp-2">{product.name}</h3>
+                <div className="p-6">
+                  <h3 className="font-bold mb-2 text-lg">{product.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">{product.shortDesc}</p>
+                  <details className="mb-4">
+                    <summary className="text-sm text-primary cursor-pointer hover:underline mb-2">Подробнее</summary>
+                    <p className="text-sm text-muted-foreground mt-2">{product.fullDesc}</p>
+                  </details>
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-bold text-primary">{product.price}</span>
-                    <Button size="sm" className="gradient-bg">
-                      <Icon name="ShoppingCart" size={16} />
+                    <span className="text-2xl font-bold text-primary">{product.price}</span>
+                    <Button size="sm" className="gradient-bg" onClick={() => scrollToSection('contacts')}>
+                      <Icon name="Phone" size={16} />
+                      Заказать
                     </Button>
                   </div>
                 </div>
