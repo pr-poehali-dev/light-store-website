@@ -11,57 +11,30 @@ const Index = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const products = [
-    {
-      id: 1,
-      name: 'Подвесной светильник ГЕОМЕТРИЯ',
-      price: '12 990 ₽',
-      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/02103663-070f-4afe-94ff-5bf9e6efeab1.jpg',
-      category: 'Подвесные'
-    },
-    {
-      id: 2,
-      name: 'Торшер ЭЛЕГАНТ',
-      price: '18 500 ₽',
-      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/c16f013c-ae62-4527-a455-06bd91353bde.jpg',
-      category: 'Торшеры'
-    },
-    {
-      id: 3,
-      name: 'Настольная лампа ПРЕМИУМ',
-      price: '9 800 ₽',
-      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/f14e1186-6fd8-4da0-aae3-c5e6fa5d6c03.jpg',
-      category: 'Настольные'
-    },
-    {
-      id: 4,
-      name: 'Подвесной светильник МОДЕРН',
-      price: '15 200 ₽',
-      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/02103663-070f-4afe-94ff-5bf9e6efeab1.jpg',
-      category: 'Подвесные'
-    },
-    {
-      id: 5,
-      name: 'Торшер МИНИМАЛИЗМ',
-      price: '21 000 ₽',
-      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/c16f013c-ae62-4527-a455-06bd91353bde.jpg',
-      category: 'Торшеры'
-    },
-    {
-      id: 6,
-      name: 'Настольная лампа ДИЗАЙН',
-      price: '11 300 ₽',
-      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/f14e1186-6fd8-4da0-aae3-c5e6fa5d6c03.jpg',
-      category: 'Настольные'
-    }
+  const baseProducts = [
+    { name: 'Подвесной светильник ГЕОМЕТРИЯ', image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/02103663-070f-4afe-94ff-5bf9e6efeab1.jpg', category: 'Подвесные' },
+    { name: 'Торшер ЭЛЕГАНТ', image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/c16f013c-ae62-4527-a455-06bd91353bde.jpg', category: 'Торшеры' },
+    { name: 'Настольная лампа ПРЕМИУМ', image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/f14e1186-6fd8-4da0-aae3-c5e6fa5d6c03.jpg', category: 'Настольные' }
   ];
+
+  const products = Array.from({ length: 50 }, (_, i) => {
+    const baseProduct = baseProducts[i % 3];
+    const prices = ['8 990', '12 990', '15 200', '18 500', '21 000', '24 300', '27 500', '32 000'];
+    return {
+      id: i + 1,
+      name: `${baseProduct.name} ${i + 1}`,
+      price: `${prices[i % prices.length]} ₽`,
+      image: baseProduct.image,
+      category: baseProduct.category
+    };
+  });
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg bg-background/80 border-b border-border">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold gradient-text">LUMINA</h1>
+            <h1 className="text-2xl font-bold gradient-text">SvetoLux</h1>
             <div className="hidden md:flex gap-8">
               {['home', 'catalog', 'about', 'delivery', 'contacts'].map((section) => (
                 <button
@@ -85,6 +58,24 @@ const Index = () => {
           </div>
         </div>
       </nav>
+
+      <section className="relative py-20 overflow-hidden bg-card/30">
+        <div className="flex animate-[scroll_40s_linear_infinite] whitespace-nowrap">
+          {[...Array(3)].map((_, setIndex) => (
+            <div key={setIndex} className="flex gap-6 px-3">
+              {baseProducts.map((product, idx) => (
+                <div key={`${setIndex}-${idx}`} className="inline-block">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-64 w-80 object-cover rounded-xl border-2 border-primary/30 hover:border-primary transition-all hover:scale-105"
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 gradient-bg opacity-20 animate-gradient-shift bg-[length:200%_200%]" />
@@ -259,7 +250,7 @@ const Index = () => {
 
       <footer className="py-12 px-6 border-t border-border">
         <div className="container mx-auto text-center text-muted-foreground">
-          <p className="mb-4">© 2024 LUMINA. Все права защищены.</p>
+          <p className="mb-4">© 2024 SvetoLux. Все права защищены.</p>
           <p className="text-sm">Дизайнерские светильники для вашего дома</p>
         </div>
       </footer>
