@@ -1,12 +1,268 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import Icon from '@/components/ui/icon';
 
 const Index = () => {
+  const [activeSection, setActiveSection] = useState('home');
+
+  const scrollToSection = (id: string) => {
+    setActiveSection(id);
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const products = [
+    {
+      id: 1,
+      name: 'Подвесной светильник ГЕОМЕТРИЯ',
+      price: '12 990 ₽',
+      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/02103663-070f-4afe-94ff-5bf9e6efeab1.jpg',
+      category: 'Подвесные'
+    },
+    {
+      id: 2,
+      name: 'Торшер ЭЛЕГАНТ',
+      price: '18 500 ₽',
+      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/c16f013c-ae62-4527-a455-06bd91353bde.jpg',
+      category: 'Торшеры'
+    },
+    {
+      id: 3,
+      name: 'Настольная лампа ПРЕМИУМ',
+      price: '9 800 ₽',
+      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/f14e1186-6fd8-4da0-aae3-c5e6fa5d6c03.jpg',
+      category: 'Настольные'
+    },
+    {
+      id: 4,
+      name: 'Подвесной светильник МОДЕРН',
+      price: '15 200 ₽',
+      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/02103663-070f-4afe-94ff-5bf9e6efeab1.jpg',
+      category: 'Подвесные'
+    },
+    {
+      id: 5,
+      name: 'Торшер МИНИМАЛИЗМ',
+      price: '21 000 ₽',
+      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/c16f013c-ae62-4527-a455-06bd91353bde.jpg',
+      category: 'Торшеры'
+    },
+    {
+      id: 6,
+      name: 'Настольная лампа ДИЗАЙН',
+      price: '11 300 ₽',
+      image: 'https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/f14e1186-6fd8-4da0-aae3-c5e6fa5d6c03.jpg',
+      category: 'Настольные'
+    }
+  ];
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
-      </div>
+    <div className="min-h-screen bg-background text-foreground">
+      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg bg-background/80 border-b border-border">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold gradient-text">LUMINA</h1>
+            <div className="hidden md:flex gap-8">
+              {['home', 'catalog', 'about', 'delivery', 'contacts'].map((section) => (
+                <button
+                  key={section}
+                  onClick={() => scrollToSection(section)}
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    activeSection === section ? 'text-primary' : 'text-muted-foreground'
+                  }`}
+                >
+                  {section === 'home' && 'Главная'}
+                  {section === 'catalog' && 'Каталог'}
+                  {section === 'about' && 'О нас'}
+                  {section === 'delivery' && 'Доставка'}
+                  {section === 'contacts' && 'Контакты'}
+                </button>
+              ))}
+            </div>
+            <Button className="gradient-bg">
+              <Icon name="ShoppingCart" size={20} />
+            </Button>
+          </div>
+        </div>
+      </nav>
+
+      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <div className="absolute inset-0 gradient-bg opacity-20 animate-gradient-shift bg-[length:200%_200%]" />
+        <div className="container mx-auto px-6 text-center relative z-10 animate-fade-in">
+          <h2 className="text-6xl md:text-8xl font-bold mb-6 gradient-text">
+            Освети свой мир
+          </h2>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto">
+            Дизайнерские светильники для создания идеальной атмосферы в вашем доме
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button size="lg" className="gradient-bg text-lg px-8 py-6" onClick={() => scrollToSection('catalog')}>
+              Смотреть каталог
+              <Icon name="ArrowRight" size={20} />
+            </Button>
+            <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-primary/50 hover:bg-primary/10">
+              Консультация
+            </Button>
+          </div>
+        </div>
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+          <Icon name="ChevronDown" size={32} className="text-primary" />
+        </div>
+      </section>
+
+      <section id="catalog" className="py-24 px-6">
+        <div className="container mx-auto">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-5xl font-bold mb-4 gradient-text">Каталог</h2>
+            <p className="text-xl text-muted-foreground">Выберите идеальный светильник для вашего интерьера</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products.map((product, index) => (
+              <Card
+                key={product.id}
+                className="group overflow-hidden bg-card border-border hover:border-primary/50 transition-all duration-300 animate-scale-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="relative overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute top-4 right-4 bg-gradient-to-r from-primary to-secondary text-white px-4 py-1 rounded-full text-sm font-semibold">
+                    {product.category}
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-2">{product.name}</h3>
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl font-bold gradient-text">{product.price}</span>
+                    <Button className="gradient-bg">
+                      <Icon name="ShoppingCart" size={18} />
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="py-24 px-6 bg-card/50">
+        <div className="container mx-auto max-w-4xl text-center animate-fade-in">
+          <h2 className="text-5xl font-bold mb-8 gradient-text">О нас</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+            LUMINA — это магазин дизайнерских светильников премиум-класса. Мы создаем атмосферу и настроение в вашем доме через свет.
+          </p>
+          <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+            Каждый светильник в нашей коллекции — это произведение искусства, сочетающее современный дизайн, качественные материалы и инновационные технологии освещения.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            <div className="p-6 bg-background/50 rounded-xl border border-border hover:border-primary/50 transition-all">
+              <div className="w-16 h-16 mx-auto mb-4 gradient-bg rounded-full flex items-center justify-center">
+                <Icon name="Award" size={32} />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Премиум качество</h3>
+              <p className="text-muted-foreground">Только проверенные бренды и производители</p>
+            </div>
+            <div className="p-6 bg-background/50 rounded-xl border border-border hover:border-primary/50 transition-all">
+              <div className="w-16 h-16 mx-auto mb-4 gradient-bg rounded-full flex items-center justify-center">
+                <Icon name="Palette" size={32} />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Дизайнерские решения</h3>
+              <p className="text-muted-foreground">Уникальные модели для любого интерьера</p>
+            </div>
+            <div className="p-6 bg-background/50 rounded-xl border border-border hover:border-primary/50 transition-all">
+              <div className="w-16 h-16 mx-auto mb-4 gradient-bg rounded-full flex items-center justify-center">
+                <Icon name="Shield" size={32} />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Гарантия</h3>
+              <p className="text-muted-foreground">2 года гарантии на все светильники</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="delivery" className="py-24 px-6">
+        <div className="container mx-auto max-w-4xl animate-fade-in">
+          <h2 className="text-5xl font-bold mb-12 text-center gradient-text">Доставка</h2>
+          <div className="space-y-6">
+            <Card className="p-8 bg-card border-border hover:border-primary/50 transition-all">
+              <div className="flex items-start gap-6">
+                <div className="w-12 h-12 gradient-bg rounded-full flex items-center justify-center flex-shrink-0">
+                  <Icon name="Truck" size={24} />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-3">По Москве и МО</h3>
+                  <p className="text-muted-foreground mb-2">Бесплатная доставка при заказе от 15 000 ₽</p>
+                  <p className="text-muted-foreground">Доставка в течение 1-3 дней</p>
+                </div>
+              </div>
+            </Card>
+            <Card className="p-8 bg-card border-border hover:border-primary/50 transition-all">
+              <div className="flex items-start gap-6">
+                <div className="w-12 h-12 gradient-bg rounded-full flex items-center justify-center flex-shrink-0">
+                  <Icon name="MapPin" size={24} />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-3">По России</h3>
+                  <p className="text-muted-foreground mb-2">Доставка транспортными компаниями</p>
+                  <p className="text-muted-foreground">Сроки доставки 3-7 дней</p>
+                </div>
+              </div>
+            </Card>
+            <Card className="p-8 bg-card border-border hover:border-primary/50 transition-all">
+              <div className="flex items-start gap-6">
+                <div className="w-12 h-12 gradient-bg rounded-full flex items-center justify-center flex-shrink-0">
+                  <Icon name="Package" size={24} />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-3">Самовывоз</h3>
+                  <p className="text-muted-foreground mb-2">Забрать заказ можно в нашем шоуруме</p>
+                  <p className="text-muted-foreground">г. Москва, ул. Дизайнерская, д. 10</p>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section id="contacts" className="py-24 px-6 bg-card/50">
+        <div className="container mx-auto max-w-4xl text-center animate-fade-in">
+          <h2 className="text-5xl font-bold mb-12 gradient-text">Контакты</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <Card className="p-8 bg-background/50 border-border hover:border-primary/50 transition-all">
+              <Icon name="Phone" size={32} className="mx-auto mb-4 text-primary" />
+              <h3 className="text-xl font-bold mb-2">Телефон</h3>
+              <p className="text-muted-foreground">+7 (495) 123-45-67</p>
+              <p className="text-sm text-muted-foreground mt-2">Ежедневно с 10:00 до 21:00</p>
+            </Card>
+            <Card className="p-8 bg-background/50 border-border hover:border-primary/50 transition-all">
+              <Icon name="Mail" size={32} className="mx-auto mb-4 text-primary" />
+              <h3 className="text-xl font-bold mb-2">Email</h3>
+              <p className="text-muted-foreground">info@lumina-shop.ru</p>
+              <p className="text-sm text-muted-foreground mt-2">Ответим в течение 24 часов</p>
+            </Card>
+          </div>
+          <div className="flex gap-4 justify-center">
+            <Button className="gradient-bg text-lg px-8 py-6">
+              <Icon name="MessageCircle" size={20} />
+              Написать в WhatsApp
+            </Button>
+            <Button variant="outline" className="text-lg px-8 py-6 border-primary/50 hover:bg-primary/10">
+              <Icon name="Send" size={20} />
+              Telegram
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <footer className="py-12 px-6 border-t border-border">
+        <div className="container mx-auto text-center text-muted-foreground">
+          <p className="mb-4">© 2024 LUMINA. Все права защищены.</p>
+          <p className="text-sm">Дизайнерские светильники для вашего дома</p>
+        </div>
+      </footer>
     </div>
   );
 };
