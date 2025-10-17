@@ -235,7 +235,7 @@ const Index = () => {
                     </li>
                     <li className="flex items-center gap-2">
                       <Icon name="Check" size={18} className="text-primary" />
-                      Индекс цветопередачи (CRI > 80)
+                      Индекс цветопередачи (CRI {'>'} 80)
                     </li>
                   </ul>
                 </div>
