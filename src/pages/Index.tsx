@@ -5,6 +5,7 @@ import Icon from '@/components/ui/icon';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const [selectedCategory, setSelectedCategory] = useState('Все');
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
@@ -36,7 +37,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold gradient-text">SvetoLux</h1>
             <div className="hidden md:flex gap-8">
-              {['home', 'catalog', 'about', 'delivery', 'contacts'].map((section) => (
+              {['home', 'catalog', 'calculations', 'about', 'delivery', 'contacts'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
@@ -46,6 +47,7 @@ const Index = () => {
                 >
                   {section === 'home' && 'Главная'}
                   {section === 'catalog' && 'Каталог'}
+                  {section === 'calculations' && 'Расчеты'}
                   {section === 'about' && 'О нас'}
                   {section === 'delivery' && 'Доставка'}
                   {section === 'contacts' && 'Контакты'}
@@ -103,12 +105,56 @@ const Index = () => {
 
       <section id="catalog" className="py-24 px-6">
         <div className="container mx-auto">
-          <div className="text-center mb-16 animate-fade-in">
+          <div className="text-center mb-12 animate-fade-in">
             <h2 className="text-5xl font-bold mb-4 gradient-text">Каталог</h2>
-            <p className="text-xl text-muted-foreground">Выберите идеальный светильник для вашего интерьера</p>
+            <p className="text-xl text-muted-foreground mb-8">Выберите идеальный светильник для вашего интерьера</p>
+            
+            <div className="flex flex-wrap gap-3 justify-center mb-8">
+              {['Все', 'Подвесные', 'Торшеры', 'Настольные'].map((category) => (
+                <Button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  variant={selectedCategory === category ? 'default' : 'outline'}
+                  className={selectedCategory === category ? 'gradient-bg' : 'border-primary/50 hover:bg-primary/10'}
+                >
+                  {category}
+                </Button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+              <Card className="relative overflow-hidden group">
+                <img
+                  src="https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/887c9206-8aed-4ca2-a1a0-58d549773d61.jpg"
+                  alt="Светильники в интерьере гостиной"
+                  className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-8">
+                  <div className="text-left">
+                    <h3 className="text-2xl font-bold mb-2">В интерьере гостиной</h3>
+                    <p className="text-muted-foreground">Подвесные светильники создают атмосферу</p>
+                  </div>
+                </div>
+              </Card>
+              <Card className="relative overflow-hidden group">
+                <img
+                  src="https://cdn.poehali.dev/projects/fa007d26-b27b-41ea-9902-d501dca2b6b5/files/cfb11fda-4ccf-4706-ad5e-4eb07f5a432b.jpg"
+                  alt="Светильники в интерьере спальни"
+                  className="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-8">
+                  <div className="text-left">
+                    <h3 className="text-2xl font-bold mb-2">В интерьере спальни</h3>
+                    <p className="text-muted-foreground">Торшеры для уютного освещения</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product, index) => (
+            {products
+              .filter(product => selectedCategory === 'Все' || product.category === selectedCategory)
+              .map((product, index) => (
               <Card
                 key={product.id}
                 className="group overflow-hidden bg-card border-border hover:border-primary/50 transition-all duration-300 animate-scale-in"
@@ -136,6 +182,106 @@ const Index = () => {
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section id="calculations" className="py-24 px-6">
+        <div className="container mx-auto max-w-6xl animate-fade-in">
+          <h2 className="text-5xl font-bold mb-12 text-center gradient-text">Светотехнические расчеты</h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <Card className="p-8 bg-card border-border hover:border-primary/50 transition-all">
+              <div className="flex items-start gap-6">
+                <div className="w-16 h-16 gradient-bg rounded-full flex items-center justify-center flex-shrink-0">
+                  <Icon name="Calculator" size={32} />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-4">Расчет освещенности</h3>
+                  <p className="text-muted-foreground mb-4">Рассчитаем необходимое количество светильников для вашего помещения по СНиП и ГОСТ</p>
+                  <ul className="space-y-2 text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <Icon name="Check" size={18} className="text-primary" />
+                      Жилые помещения: 150-200 люкс
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Icon name="Check" size={18} className="text-primary" />
+                      Офисы: 300-500 люкс
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Icon name="Check" size={18} className="text-primary" />
+                      Торговые залы: 500-750 люкс
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-8 bg-card border-border hover:border-primary/50 transition-all">
+              <div className="flex items-start gap-6">
+                <div className="w-16 h-16 gradient-bg rounded-full flex items-center justify-center flex-shrink-0">
+                  <Icon name="Lightbulb" size={32} />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-4">Подбор оборудования</h3>
+                  <p className="text-muted-foreground mb-4">Поможем выбрать оптимальные светильники под ваши задачи и бюджет</p>
+                  <ul className="space-y-2 text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <Icon name="Check" size={18} className="text-primary" />
+                      Подбор по мощности и световому потоку
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Icon name="Check" size={18} className="text-primary" />
+                      Цветовая температура (2700K-6500K)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Icon name="Check" size={18} className="text-primary" />
+                      Индекс цветопередачи (CRI > 80)
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          <Card className="p-10 bg-gradient-to-br from-card to-card/50 border-primary/30">
+            <div className="text-center mb-8">
+              <h3 className="text-3xl font-bold mb-4 gradient-text">Калькулятор освещения</h3>
+              <p className="text-muted-foreground">Заполните данные для расчета необходимого освещения</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div>
+                <label className="block text-sm font-medium mb-2">Площадь помещения (м²)</label>
+                <input
+                  type="number"
+                  placeholder="Например: 25"
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Тип помещения</label>
+                <select className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-colors">
+                  <option>Жилая комната</option>
+                  <option>Кухня</option>
+                  <option>Офис</option>
+                  <option>Торговый зал</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Высота потолка (м)</label>
+                <input
+                  type="number"
+                  placeholder="Например: 3"
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-colors"
+                />
+              </div>
+            </div>
+            <div className="text-center">
+              <Button size="lg" className="gradient-bg text-lg px-12 py-6">
+                <Icon name="Zap" size={20} />
+                Рассчитать освещение
+              </Button>
+            </div>
+          </Card>
         </div>
       </section>
 
